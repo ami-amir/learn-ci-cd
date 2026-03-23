@@ -6,20 +6,49 @@ on:
       - main
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #GitHub provides temporary machines (runners)
+    #Linux = faster, cheaper, widely supported
     steps:
       - name: Check out code 🛎️
-        uses: actions/checkout@v6
-
-      - name: Set up .NET 10.0 SDK 🧰
-        uses: actions/setup-dotnet@v5
+        uses: actions/checkout@v6 #Downloads your repository into the runner
+        #Without this:
+        #No code → Nothing to build ❌
+      - name: Set up .NET 10.0 SDK 🧰 #Installs .NET SDK version 10
+        uses: actions/setup-dotnet@v5 #Your app needs .NET to compile
+        #Ensures consistent environment across all builds
         with:
           dotnet-version: '10.0.x'
-      - name: Restore dependencies 📦
-        run: dotnet restore
+      - name: Restore dependencies 📦 #Downloads all NuGet packages
+        run: dotnet restore #Build will fail ❌ without this
 
-      - name: Build the project 🏗️
-        run: dotnet build -c Release --no-restore
+      - name: Build the project 🏗️ #Compiles your code into binaries
+        run: dotnet build -c Release --no-restore #-c Release Production build (optimized)
 
       - name: Run tests 🧪
         run: dotnet test -c Release --no-build
+
+      - name: Code Format Check 🎨
+        run: dotnet format --verify-no-changes
+
+      - name : Gitleaks Scan 🔍 #Security scanning for secrets in code
+        uses: gitleaks/gitleaks-action@v2
+
+      - name:  CodeQL Analysis 🕵️‍♂️ #Static code analysis for vulnerabilities
+        uses: github/codeql-action/analyze@v3
+        with:
+            languages: 'csharp'
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+
+#Push to main
+#   ↓
+#Checkout code
+#   ↓
+#Install .NET
+#   ↓
+#Restore packages
+#   ↓
+#Build project
+#   ↓
+#Run tests
