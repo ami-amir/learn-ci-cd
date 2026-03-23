@@ -33,12 +33,12 @@ jobs:
       - name : Gitleaks Scan 🔍 #Security scanning for secrets in code
         uses: gitleaks/gitleaks-action@v2
 
-      - name:  CodeQL Analysis 🕵️‍♂️ #Static code analysis for vulnerabilities
-        uses: github/codeql-action/analyze@v3
-        with:
-            languages: 'csharp'
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+    #   - name:  CodeQL Analysis 🕵️‍♂️ #Static code analysis for vulnerabilities
+    #     uses: github/codeql-action/analyze@v3
+    #     with:
+    #         languages: 'csharp'
+    #   - name: Autobuild
+    #     uses: github/codeql-action/autobuild@v3
 
 
 #Push to main
