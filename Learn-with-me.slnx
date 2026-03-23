@@ -1,1 +1,4 @@
-<Solution />
+<Solution>
+  <Project Path="Learn-CI-CD.Tests/Learn-CI-CD.Tests.csproj" />
+  <Project Path="Learn-CI-CD/Learn-CI-CD.csproj" />
+</Solution>
